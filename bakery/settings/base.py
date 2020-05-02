@@ -1,8 +1,10 @@
 import os
 from decouple import Config
 
-BASE_DIR = os.path.dirname(os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__))))
 
 SECRET_KEY = Config('SECRET_KEY')
 
@@ -57,14 +59,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bakery.wsgi.application'
 
-
 # Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Asia/Kolkata'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
@@ -89,15 +89,12 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_REQUIRED = True
 
-
 # Crispy form settings
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
 
 # Stripe charge settings
 STRIPE_SECRET_KEY = Config('STRIPE_SECRET_KEY')
 STRIPE_PUBLISH_KEY = Config('STRIPE_PUBLISH_KEY')
-
 
 # Email settings
 EMAIL_HOST = 'smtp.gmail.com'

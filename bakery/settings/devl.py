@@ -2,9 +2,7 @@ from .base import *
 
 DEBUG = True
 
-
 ALLOWED_HOSTS = ['127.0.0.1']
-
 
 # Database
 DATABASES = {
@@ -13,7 +11,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
