@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div>
+        <h3>Hi {{ request.user.email|capfirst }}
+            <span style="float:right; font-size:15px">
+                {{ now|date:"D d M Y" }} | {{ now|time:"P" }}
+            </span>
+        </h3>
+        <hr/>
+    </div>
+
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link text-muted" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <h5>Personal detail</h5>
+                </button>
+            </h2>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+
+                    <table class='table table-hover table-bordered text-center'>
+
+                        <tr class='text-center'>
+                            <th><i class="fas fa-envelope"></i> Email</th>
+                            <th>{{ request.user.email }}</th>
+                        </tr>
+
+                        <tr class='text-center'>
+                            <th><i class="fas fa-lock"></i> Password</th>
+                            <th>
+                                ***************
+                                <span style="float:right">
+                                    <a class="text-muted" href="{% url 'account_change_password' %}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </span>    
+                            </th>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link text-muted" type="button" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="true" aria-controls="collapsetwo">
+                <h5>Previous orders</h5>
+                </button>
+            </h2>
+            </div>
+            <div id="collapsetwo" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <table class='table table-hover table-bordered text-center'>
+
+                        <tr class='text-center'>
+                            <th>No.</th>
+                            <th>Reference code</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ order.order_ref_code }}</td>
+                                <td>{{ order.order_total }}</td>
+                                <td>{{ order.order_date }}</td>
+                            </tr>
+                        {% empty %}
+
+                            <tr>
+                                <td colspan="4">
+                                    You have not purchased anything yet
+                                </td>
+                            </tr>
+                        
+                        {% endfor %}
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+{% endblock content %}

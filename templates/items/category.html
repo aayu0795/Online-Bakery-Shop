@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_title %}{{ category.title }}{% endblock %}
+
+{% block content %}
+    <div class="card">
+
+        <div class="card-header text-center">
+            <strong>
+                <h2>
+                    {{ category.title }}
+                </h2>
+            </strong>
+        </div>
+
+        <div class="card-body">
+            <div class="row mt-3">
+
+                {% for item in category.item_set.all %}
+
+                    <div class="col mt-3">
+
+                        <div class="card" style="width: 18rem;">
+                            
+                            <a href="{{ item.get_absolute_url }}">
+                                <img src="{{ item.thumbnail.url }}" class="card-img-top" height="275">
+                            </a>
+                            
+                            <div class="card-body text-center">
+                                {{ item }}
+                            </div>
+
+                        </div>
+                        
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

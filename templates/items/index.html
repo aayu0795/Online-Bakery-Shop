@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_title %}Bakery{% endblock %}
+
+{% block content %}
+    
+    <div class="card bg-dark text-white">
+
+        <img class="card-img" src="{% static 'images/bg.jpg' %}" alt="Card image">
+
+        <div class="card-img-overlay">
+            <h1 class="card-title">The Bakers Shop</h1>
+        </div>
+
+    </div>
+
+    {% for category in categories %}    
+        
+
+        <div class="card mt-3">
+
+            <div class="card-body">
+
+                <strong> 
+                    <a class="text-muted" href="{{ category.get_absolute_url }}">{{ category }}</a>
+                </strong>
+
+                <a class="text-muted" data-toggle="collapse" href="#collapseExample{{ category.id }}">
+
+                    <span style="float:right">
+                        <small>
+                            Show/Hide
+                        </small>
+                    </span>
+
+                </a>
+
+                <div class="collapse {% if forloop.counter <= 2 %} show {% endif %}" id="collapseExample{{ category.id }}">
+
+                    <div class="row mt-3">
+
+                        {% for item in category.get_top_three_items %}
+
+                            <div class="col">
+
+                                <div class="card" style="width: 18rem;">
+
+                                    <a href="{{ item.get_absolute_url }}">
+                                        <img src="{{ item.thumbnail.url }}" class="card-img-top" height="275">
+                                    </a>
+                                    
+                                    <div class="card-body text-center">
+                                        {{ item }}
+                                    </div>
+
+                                </div>
+                                
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        
+    {% endfor %}
+    
+{% endblock content %}

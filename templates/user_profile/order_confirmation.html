@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/a23139b8cb.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron mt-5 text-center">
+            <h3>
+                <i class="far fa-grin-beam"></i>
+                Thank you...
+            </h3>
+            <strong>
+                <h4>
+                    Hi {{ order.user.username|capfirst }}, 
+                    <small>Your order is placed successfully.</small>
+                </h4>
+                
+            </strong>
+            <p class="lead mt-2">
+                Your order for 
+                {% for item in order.order_items.all %}
+                    <strong>
+                        {{item}}{% if not forloop.last %},{% endif %}    
+                    </strong>
+                {% endfor %}
+                is placed successfully.
+            </p>
+            <p>
+                <strong>Order id: {{ order.order_ref_code }}</strong>
+            </p>
+            <p>
+                The total amount for your order is <i class="fas fa-rupee-sign"></i><strong>{{ order.order_total }}.</strong>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_title %}{{ item.title }}{% endblock %}
+
+{% block content %}
+
+    <div class="card">  
+
+        <div class="card-header text-center">
+            <strong><h3>{{ item.title }}</h3></strong>
+        </div>
+
+        <div class="card-body">
+            <div class="row mt-3">
+
+                <main class="col-md-4">                 
+
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ item.thumbnail.url }}" class="card-img-top" height="275"> 
+                    </div>
+
+                    <div class="card-img-overlay text-right" style="width: 18rem;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+
+                     <div class="card-footer text-center text-warning" style="width: 18rem;">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    
+                </main>
+
+                <aside class="col-md-8">    
+
+                    {% if item.get_discount %}
+
+                        <div class="card-header text-center" style="width: 18rem;"><s>
+                            Price:  
+                            <small>
+                                <i class="fas fa-rupee-sign"></i>
+                            </small>
+                            {{ item.price }}</s>
+                        </div>
+
+                        <div class="card-header text-center mt-4" style="width: 18rem;">
+                            New Offer Price:  
+                            <small>
+                                <i class="fas fa-rupee-sign"></i>
+                            </small>
+                            {{ item.get_discount }}
+                        </div>
+
+                    {% else %}
+
+                        <div class="card-header text-center" style="width: 18rem;">
+                            Price:  
+                            <small>
+                                <i class="fas fa-rupee-sign"></i>
+                            </small>
+                            {{ item.price }}
+                        </div>
+
+                        <div class="card-header text-center mt-4" style="width: 18rem;">
+                            No offer available
+                        </div>
+
+                    {% endif %}
+
+                    <div class="card text-center mt-4" style="width: 18rem;">
+                        <a href="{% url 'cart:order-summary' %}" class="btn btn-warning block">
+                            Buy now
+                        </a>
+                    </div>
+
+                    {% if in_cart %}
+
+                        <div class="card text-center mt-4" style="width: 18rem;">
+                            <a href="{% url 'cart:remove-from-cart' item.slug %}" class="btn btn-warning block">
+                                Remove to cart
+                            </a>
+                        </div>
+                    
+                    {% else %}
+
+                        <div class="card text-center mt-4" style="width: 18rem;">
+                            <a href="{% url 'cart:add-to-cart' item.slug %}" class="btn btn-warning block">
+                                Add to cart
+                            </a>
+                        </div>
+
+                    {% endif %}
+                
+                </aside>
+
+            </div>
+
+            <div class="card-body text-center">
+                {{ item.description }}
+            </div>
+        </div>
+
+    </div>
+    
+{% endblock %}
