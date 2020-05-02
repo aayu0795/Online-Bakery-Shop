@@ -13,7 +13,8 @@ CATEGORY_CHOICES = {
 
 
 class Category(models.Model):
-    title = models.CharField(choices=CATEGORY_CHOICES, max_length=10)
+    title = models.CharField(choices=CATEGORY_CHOICES,
+                             max_length=10, unique=True)
     slug = models.SlugField()
 
     class Meta:
@@ -57,7 +58,7 @@ class Item(models.Model):
 
     @property
     def get_discount(self):
-        if self.offer == True:
+        if self.offer:
             discounted_value = self.price - \
                 ((self.price * self.discount.discount_value) / 100)
             return discounted_value
@@ -65,7 +66,7 @@ class Item(models.Model):
 
     @property
     def get_price(self):
-        if self.offer == True:
+        if self.offer:
             discounted_value = self.price - \
                 ((self.price * self.discount.discount_value) / 100)
             return discounted_value

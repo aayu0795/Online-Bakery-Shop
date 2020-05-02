@@ -21,14 +21,14 @@
 
                 <td>
                     {{ order_item.item.title }}
-                    <span class='pull-right'>
+                    <span class='float-right'>
                         <a href="{% url 'cart:remove-from-cart' order_item.item.slug %}" class='text-danger'>
                             <i class='fas fa-trash'></i>
                         </a>
                     </sapn>
                 </td>
 
-                <td>${{ order_item.item.get_price }}</td>
+                <td><i class="fas fa-rupee-sign"></i> {{ order_item.item.get_price }}</td>
 
             </tr>
 
@@ -49,7 +49,7 @@
                 </td>
 
                 <td colspan="2">
-                    <strong>${{ order.get_total }}</strong>
+                    <strong><i class="fas fa-rupee-sign"></i> {{ order.get_total }}</strong>
                 </td>
             </tr>
         {% endif %}

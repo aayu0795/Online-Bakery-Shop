@@ -1,31 +1,38 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
-from .models import Order, OrderItem, Payment
 import string
 import random
+import stripe
 from items.models import Item
+from django.conf import settings
+from django.contrib import messages
+from user_profile.models import User_orders
+from .models import Order, OrderItem, Payment
+from django.template.loader import render_to_string
+from django.core.mail import send_mail, EmailMessage
 from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-import stripe
-from django.conf import settings
-from user_profile.models import User_orders
-from django.core.mail import send_mail, EmailMessage
-from django.template.loader import render_to_string
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 def create_ref_code():
+    '''
+    This function generate the unique reference code for each 
+    payment items
+    '''
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=15))
 
 
 def send_email(instance):
+    '''
+    This fucntion send's the order confirmation email to the logged in user
+    when the order is placed successfully
+    '''
     to = [instance.user.email]
     subject = "Order Confirmation"
     sender = settings.EMAIL_HOST_USER
     template_name = 'user_profile/order_confirmation.html'
     context = {'order': instance}
-
     msg_html = render_to_string(template_name, context)
     msg = EmailMessage(subject=subject, body=msg_html,
                        from_email=sender, to=to)
@@ -35,6 +42,9 @@ def send_email(instance):
 
 @login_required
 def add_to_cart(request, item_slug):
+    '''
+    This function allow to add item to the cart
+    '''
     item = get_object_or_404(Item, slug=item_slug)
     order_item, created = OrderItem.objects.get_or_create(item=item)
     order, created = Order.objects.get_or_create(user=request.user)
@@ -45,6 +55,9 @@ def add_to_cart(request, item_slug):
 
 @login_required
 def remove_from_cart(request, item_slug):
+    '''
+    This function allow to remove item to the cart
+    '''
     item = get_object_or_404(Item, slug=item_slug)
     order_item = get_object_or_404(OrderItem, item=item)
     order = Order.objects.get(user=request.user)
@@ -55,6 +68,10 @@ def remove_from_cart(request, item_slug):
 
 @login_required
 def order_view(request):
+    '''
+    This function based view generate the order summary for 
+    the items present in the cart
+    '''
     order_qs = Order.objects.filter(user=request.user)
     if order_qs.exists():
         context = {
@@ -70,6 +87,10 @@ def order_view(request):
 
 @login_required
 def checkout(request):
+    '''
+    This function view allow user to make payment and get the
+    email confirmation for succesfull orders
+    '''
     order_qs = Order.objects.filter(user=request.user)
 
     if order_qs.exists():

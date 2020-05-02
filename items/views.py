@@ -1,11 +1,15 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
 from .models import Category, Item
+from django.shortcuts import render
 from cart.models import OrderItem, Order
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def check_item_in_cart(request, item):
+    '''
+    This view identify if item present in 
+    cart for logged in user or not
+    '''
     try:
         order_qs = Order.objects.filter(user=request.user)
         if order_qs.exists():
@@ -15,29 +19,35 @@ def check_item_in_cart(request, item):
                 order_item = order_item_qs[0]
                 if order_item in order.items.all():
                     return True
-        # if book not present in cart
+        # if item not present in cart
         return False
     except TypeError:
         return False
 
-# /
-
 
 class HomepageView(ListView):
+    '''
+    It's the homepage view of website
+    '''
     model = Category
     context_object_name = 'categories'
     template_name = 'items/index.html'
 
 
-# /slug:slug>/
 class CategoryDetailView(DetailView):
+    '''
+    This view lists out all the categories 
+    '''
     model = Category
     context_object_name = 'category'
     template_name = 'items/category.html'
 
 
-# /<slug:category_slug>/<slug:slug>/
 class ItemDetailView(LoginRequiredMixin, DetailView):
+    '''
+    This view provide the complete details of the
+    instance item
+    '''
     lofin_url = 'accounts/login/'
     model = Item
     context_object_name = 'item'

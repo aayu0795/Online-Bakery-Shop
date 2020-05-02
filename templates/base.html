@@ -45,6 +45,9 @@
             {% if request.user.is_authenticated %}
                 <a class="nav-link text-white" href="{% url 'account_logout' %}">Logout</a>
                 <a class="nav-link text-white" href="{% url 'cart:order-summary' %}">
+                    <i class="fas fa-heart" style="font-size:30px"></i>
+                </a>
+                <a class="nav-link text-white" href="{% url 'cart:order-summary' %}">
                     <i class="fas fa-shopping-cart" style="font-size:30px"></i>
                     {{ request.user|cart_item_count }}
                 </a>
